@@ -2,9 +2,14 @@ import React from 'react';
 import { View, Text, Platform, StatusBar } from 'react-native'
 import { TabNavigator, StackNavigator } from 'react-navigation'
 
+import { createStore } from 'redux'
+import { Provider } from 'react-redux'
+
 import { FontAwesome, Ionicons } from '@expo/vector-icons'
 import { Constants } from 'expo'
 
+
+import reducer from './reducers'
 import { purple, white } from './utils/colors'
 import Decks from './components/Decks'
 import NewDeck from './components/NewDeck'
@@ -94,10 +99,12 @@ function UdaciStatusBar({ backgroundColor, ...props }) {
 export default class App extends React.Component {
   render() {
     return (
+      <Provider store={createStore(reducer)}>
         <View style={{ flex: 1 }}>
           <UdaciStatusBar backgroundColor={purple} barStyle="light-content" />
           <MainNavigator />
         </View>
+      </Provider>
     );
   }
 }

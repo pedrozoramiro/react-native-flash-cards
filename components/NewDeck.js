@@ -1,6 +1,9 @@
 import React, { Component } from 'react'
 import { View, Text, TouchableOpacity, TextInput } from 'react-native'
 import { saveDeckTitle } from '../utils/api'
+import { addDeck } from '../actions/index';
+
+import { connect } from 'react-redux';
 
 
 class NewDeck extends Component {
@@ -10,8 +13,10 @@ class NewDeck extends Component {
   }
   submit = () => {
     const { title } = this.state;
-    const deck = {title};
-    saveDeckTitle(deck)
+    const { dispatch } = this.props;
+    const deck = {title,questions:[]};
+    saveDeckTitle(deck);
+    dispatch(addDeck(deck));
     this.props.navigation.navigate('NewCard',{deck})
   }
 
@@ -36,4 +41,4 @@ class NewDeck extends Component {
   }
 }
 
-export default NewDeck;
+export default connect()(NewDeck)

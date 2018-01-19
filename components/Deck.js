@@ -15,7 +15,7 @@ class Deck extends Component {
     return (
       <View>
             <Text style={{ fontSize: 24, textAlign: 'center' }}>{deck.title}</Text>
-            <Text style={{ fontSize: 18, textAlign: 'center', color: gray }}>{deck.questions.length} cards</Text>
+            <Text style={{ fontSize: 18, textAlign: 'center', color: gray }}>{deck.questions ? deck.questions.length : 0}cards</Text>
             <TouchableOpacity onPress={()=> this.props.navigation.navigate('NewCard',{deck})}>
                 <Text style={{ fontSize: 24, textAlign: 'center' }}>Add Card</Text>
             </TouchableOpacity>

@@ -1,6 +1,9 @@
 import React, { Component } from 'react'
 import { View, Text, TextInput, TouchableOpacity } from 'react-native'
 import { addCardToDeck } from '../utils/api'
+import { addCard } from '../actions/index';
+import { connect } from 'react-redux';
+
 
 class NewCard extends Component {
 
@@ -15,8 +18,11 @@ class NewCard extends Component {
     submit = () => {
         const { question, answer } = this.state;
         const { deck } = this.props.navigation.state.params;
-        alert(deck.title+' - '+question+' - '+ answer);
-        addCardToDeck(deck.title,{question,answer});
+        const {dispatch} =this.props;
+        const card ={question,answer} ;
+
+        dispatch(addCard(deck.title, card));
+        addCardToDeck(deck.title,card);
         this.props.navigation.navigate('Decks',{deck});
     }
 
@@ -44,5 +50,5 @@ class NewCard extends Component {
         )
     }
 }
-
-export default NewCard;
+  
+export default connect()(NewCard)

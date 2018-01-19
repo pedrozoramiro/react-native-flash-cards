@@ -11,7 +11,6 @@ import { DECKS_STORAGE_KEY } from './Constants'
 
 
 export function formatCalendarResults (results) {
-  alert(results);
   return results  === null
     ? null
     : JSON.parse(results)
@@ -24,7 +23,7 @@ export function getDecks () {
 }
 
 export function getDeck (id) {
-    return AsyncStorage.getItem(DECKS_STORAGE_KEY)
+  return AsyncStorage.getItem(DECKS_STORAGE_KEY)
       .then(mockdata[id]);
   }
 
