@@ -1,17 +1,18 @@
 import React, { Component } from 'react'
 import { View, Text, TouchableOpacity } from 'react-native'
 import {gray} from '../utils/colors'
+import { connect } from 'react-redux';
 
 
 
 class Deck extends Component {
   static navigationOptions = ({navigation}) => ({
-    title: navigation.state.params.deck.title,
+    title: navigation.state.params.deckTitle,
   });
 
   render() {
     
-    const { deck } = this.props.navigation.state.params;
+    const { deck } = this.props;
     return (
       <View>
             <Text style={{ fontSize: 24, textAlign: 'center' }}>{deck.title}</Text>
@@ -27,4 +28,11 @@ class Deck extends Component {
   }
 }
 
-export default Deck;
+function mapStateToProps (decks,props) {
+  const {deckTitle} = props.navigation.state.params;
+  return {
+    deck : decks[deckTitle]
+  }
+}
+
+export default connect(mapStateToProps)(Deck)

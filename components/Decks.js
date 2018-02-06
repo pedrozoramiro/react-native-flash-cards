@@ -34,7 +34,7 @@ class Decks extends Component {
           const deck = decks[key];
           return (
             <ShadowView key={key}>
-              <TouchableOpacity onPress={()=> this.props.navigation.navigate('Deck',{deck})}>
+              <TouchableOpacity onPress={()=> this.props.navigation.navigate('Deck',{deckTitle:deck.title})}>
                 <Text style={{ fontSize: 24, textAlign: 'center' }}>{deck.title}</Text>
                 <Text style={{ fontSize: 18, textAlign: 'center', color: gray }}>{deck.questions ? deck.questions.length : 0} cards</Text>
               </TouchableOpacity>

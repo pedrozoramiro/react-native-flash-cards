@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { View, Text, TextInput, TouchableOpacity } from 'react-native'
+import { NavigationActions } from 'react-navigation'
 import { addCardToDeck } from '../utils/api'
 import { addCard } from '../actions/index';
 import { connect } from 'react-redux';
@@ -17,13 +18,18 @@ class NewCard extends Component {
 
     submit = () => {
         const { question, answer } = this.state;
-        const { deck } = this.props.navigation.state.params;
-        const {dispatch} =this.props;
-        const card ={question,answer} ;
-
-        dispatch(addCard(deck.title, card));
-        addCardToDeck(deck.title,card);
-        this.props.navigation.navigate('Decks',{deck});
+        const { deck, isNewDeck } = this.props.navigation.state.params;
+        const { dispatch, navigation } = this.props;
+        const card = { question, answer };
+        addCardToDeck(deck.title, card).then((results) => {
+            dispatch(addCard(deck.title, card));
+            if (isNewDeck) {
+                navigation.navigate('Deck', { deckTitle: deck.title });
+                navigation.dispatch(NavigationActions.reset());
+                return;
+            }
+            navigation.dispatch(NavigationActions.back());
+        });
     }
 
     render() {
@@ -50,5 +56,5 @@ class NewCard extends Component {
         )
     }
 }
-  
+
 export default connect()(NewCard)

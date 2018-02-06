@@ -15,9 +15,10 @@ class NewDeck extends Component {
     const { title } = this.state;
     const { dispatch } = this.props;
     const deck = {title,questions:[]};
-    saveDeckTitle(deck);
-    dispatch(addDeck(deck));
-    this.props.navigation.navigate('NewCard',{deck})
+    saveDeckTitle(deck) .then(() => {
+      dispatch(addDeck(deck));
+      this.props.navigation.navigate('Deck',{deckTitle:deck.title,isNewDeck:true})
+    });  
   }
 
   render() {
