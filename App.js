@@ -16,6 +16,7 @@ import NewDeck from './components/NewDeck'
 import Deck from './components/Deck'
 import NewCard from './components/NewCard'
 import Quiz from './components/Quiz'
+import { setLocalNotification } from './utils/api';
 
 const Tabs = TabNavigator({
   Decks: {
@@ -98,6 +99,11 @@ function UdaciStatusBar({ backgroundColor, ...props }) {
 
 
 export default class App extends React.Component {
+
+  componentDidMount() {
+    setLocalNotification()
+  }
+
   render() {
     return (
       <Provider store={createStore(reducer)}>

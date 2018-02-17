@@ -1,14 +1,6 @@
-/*
-getDecks: retorna todos os baralhos com seus títulos, perguntas, e respostas. 
-getDeck: dado um único argumento id, ele retorna o baralho associado àquele id. 
-
-saveDeckTitle: dado um único argumento title, ele adiciona-o aos baralhos. 
-addCardToDeck: dado dois argumentos, title e card, ele adiciona o cartão à lista de perguntas ao baralho com o título associado.  */
-
-
 import { AsyncStorage } from 'react-native'
-import { DECKS_STORAGE_KEY } from './Constants'
-
+import { DECKS_STORAGE_KEY,NOTIFICATION_KEY } from './Constants'
+import { Notifications, Permissions } from 'expo'
 
 export function formatCalendarResults (results) {
   return results  === null
@@ -49,3 +41,56 @@ export function saveDeckTitle ({ title }) {
       [title]: {title}
     }))
   }
+
+
+
+  
+export function clearLocalNotification () {
+  return AsyncStorage.removeItem(NOTIFICATION_KEY)
+    .then(Notifications.cancelAllScheduledNotificationsAsync)
+}
+
+function createNotification () {
+  return {
+    title: 'Answer the quiz today!',
+    body: "Don't forget to answer the quiz today!",
+    ios: {
+      sound: true,
+    },
+    android: {
+      sound: true,
+      priority: 'high',
+      sticky: false,
+      vibrate: true,
+    }
+  }
+}
+
+export function setLocalNotification () {
+  AsyncStorage.getItem(NOTIFICATION_KEY)
+    .then(JSON.parse)
+    .then((data) => {
+      if (data === null) {
+        Permissions.askAsync(Permissions.NOTIFICATIONS)
+          .then(({ status }) => {
+            if (status === 'granted') {
+              Notifications.cancelAllScheduledNotificationsAsync()
+
+              let tomorrow = new Date()
+              tomorrow.setDate(tomorrow.getDate() + 1)
+              tomorrow.setHours(20)
+              tomorrow.setMinutes(0)
+
+              Notifications.scheduleLocalNotificationAsync(
+                createNotification(),
+                {
+                  time: tomorrow,
+                  repeat: 'day',
+                }
+              )
+
+              AsyncStorage.setItem(NOTIFICATION_KEY, JSON.stringify(true))
+            }
+          })
+      }
+    })}

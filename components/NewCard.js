@@ -4,6 +4,7 @@ import { NavigationActions } from 'react-navigation'
 import { addCardToDeck } from '../utils/api'
 import { addCard } from '../actions/index';
 import { connect } from 'react-redux';
+import { SimpleTextInput, TitleText, SimpleTouchableOpacity, ContainerView, ItemView } from '../style/components';
 
 
 class NewCard extends Component {
@@ -35,24 +36,25 @@ class NewCard extends Component {
     render() {
 
         return (
-            <View>
-                <TextInput
-                    style={{ height: 100, borderColor: 'gray', borderWidth: 1 }}
-                    onChangeText={(question) => this.setState({ question })}
-                    placeholder={'Question'}
-                    value={this.state.question}
-                />
-                <TextInput
-                    style={{ height: 100, borderColor: 'gray', borderWidth: 1 }}
-                    onChangeText={(answer) => this.setState({ answer })}
-                    placeholder={'Answer'}
-                    value={this.state.answer}
-                />
-
-                <TouchableOpacity onPress={this.submit}>
-                    <Text style={{ fontSize: 24, textAlign: 'center' }}>Submit</Text>
-                </TouchableOpacity>
-            </View>
+            <ContainerView>
+                <ItemView>
+                    <TitleText style={{textAlign: 'left'}}>Question</TitleText>
+                    <SimpleTextInput
+                        onChangeText={(question) => this.setState({ question })}
+                        placeholder={'What is a component ?'}
+                        value={this.state.question}
+                    />
+                    <TitleText style={{textAlign: 'left'}} >Answer</TitleText>
+                    <SimpleTextInput
+                        onChangeText={(answer) => this.setState({ answer })}
+                        placeholder={'Components let you split the UI into independent'}
+                        value={this.state.answer}
+                    />
+                </ItemView>
+                <SimpleTouchableOpacity onPress={this.submit}>
+                    <TitleText >Submit</TitleText>
+                </SimpleTouchableOpacity>
+            </ContainerView>
         )
     }
 }
