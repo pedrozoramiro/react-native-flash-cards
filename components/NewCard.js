@@ -22,6 +22,9 @@ class NewCard extends Component {
         const { deck, isNewDeck } = this.props.navigation.state.params;
         const { dispatch, navigation } = this.props;
         const card = { question, answer };
+        if (!question || !answer) { 
+            return; 
+        }
         addCardToDeck(deck.title, card).then((results) => {
             dispatch(addCard(deck.title, card));
             if (isNewDeck) {
@@ -38,13 +41,13 @@ class NewCard extends Component {
         return (
             <ContainerView>
                 <ItemView>
-                    <TitleText style={{textAlign: 'left'}}>Question</TitleText>
+                    <TitleText style={{ textAlign: 'left' }}>Question</TitleText>
                     <SimpleTextInput
                         onChangeText={(question) => this.setState({ question })}
                         placeholder={'What is a component ?'}
                         value={this.state.question}
                     />
-                    <TitleText style={{textAlign: 'left'}} >Answer</TitleText>
+                    <TitleText style={{ textAlign: 'left' }} >Answer</TitleText>
                     <SimpleTextInput
                         onChangeText={(answer) => this.setState({ answer })}
                         placeholder={'Components let you split the UI into independent'}

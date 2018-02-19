@@ -57,9 +57,14 @@ class Quiz extends Component {
                 <TitleText >
                     You got {correctAnswerCount} card out of {deck.questions.length}
                 </TitleText>
-                <SimpleTouchableOpacity onPress={() => this.resetQuiz()}>
-                    <TitleText>Restart Quiz</TitleText>
-                </SimpleTouchableOpacity>
+                <ItemView>
+                    <SimpleTouchableOpacity onPress={() => this.resetQuiz()}>
+                        <TitleText>Restart Quiz</TitleText>
+                    </SimpleTouchableOpacity>
+                    <SimpleTouchableOpacity onPress={() => this.props.navigation.goBack()}>
+                        <TitleText>Back to Deck</TitleText>
+                    </SimpleTouchableOpacity>
+                </ItemView>
             </ContainerView>
         )
     }
@@ -71,12 +76,17 @@ class Quiz extends Component {
             return this.renderResult();
         }
         const { question, answer } = deck.questions[indexQuiz];
+        const total = deck.questions.length;
+        const numberQuestion =1 + indexQuiz ;
         return (
             <ContainerView>
+                <TitleText>
+                    Question {numberQuestion} of {total}
+                 </TitleText>
                 {!showAnswer ?
                     (<ContainerView>
-                        <TitleText >
-                            {question}
+                        <TitleText>
+                             {question}
                         </TitleText>
                         <SimpleTouchableOpacity onPress={() => this.showAnswer(true)}>
                             <TitleText>answer</TitleText>
